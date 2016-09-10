@@ -4,6 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'ml-rebuild',
     environment: environment,
+    podModulePrefix: 'ml-rebuild/pods',
     rootURL: '/',
     locationType: 'auto',
     EmberENV: {
