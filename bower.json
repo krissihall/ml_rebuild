@@ -2,6 +2,7 @@
   "name": "ml-rebuild",
   "dependencies": {
     "ember": "~2.8.0",
-    "ember-cli-shims": "0.1.1"
+    "ember-cli-shims": "0.1.1",
+    "bootstrap": "https://github.com/krissihall/bootstrap.git#v4_ml.us"
   }
 }

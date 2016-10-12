@@ -1,0 +1,60 @@
+//== Media Query block variables
+//
+//## Simplified media query variables to ensure standard use of inline media queries
+
+// Define the cache and the aliases
+$media_cache = {}
+$media_aliases = {
+  xs-and-below:         '(max-width: $screen-xs-max)'
+  sm-and-below:         '(max-width: $screen-sm-max)'
+  md-and-below:         '(max-width: $screen-md-max)'
+  lg-and-below:         '(max-width: $screen-lg-max)'
+  // TODO: explore removing 'xs-and-up' as anything without media query would satisfy these requirements
+  xs-and-up:            '(min-width: $screen-xs-min)'
+  sm-and-up:            '(min-width: $screen-sm-min)'
+  md-and-up:            '(min-width: $screen-md-min)'
+  lg-and-up:            '(min-width: $screen-lg-min)'
+  xs-only:              '(min-width: $screen-xs-min) and (max-width: $screen-xs-max)'
+  sm-only:              '(min-width: $screen-sm-min) and (max-width: $screen-sm-max)'
+  md-only:              '(min-width: $screen-md-min) and (max-width: $screen-md-max)'
+  lg-only:              '(min-width: $screen-lg-min)'
+  // This is used for right-affixed elements above lg max width
+  lg-max-and-up:        '(min-width: $screen-lg-max)',
+
+  // Device only media queries (including md/lg queries for Windows 8 surfaces/touchscreen laptops)
+  device-xs-and-below:         '(device-max-width: $screen-xs-max)'
+  device-sm-and-below:         '(device-max-width: $screen-sm-max)'
+  device-md-and-below:         '(device-max-width: $screen-md-max)'
+  device-lg-and-below:         '(device-max-width: $screen-lg-max)'
+  device-xs-and-up:            '(device-min-width: $screen-xs-min)'
+  device-sm-and-up:            '(device-min-width: $screen-sm-min)'
+  device-md-and-up:            '(device-min-width: $screen-md-min)'
+  device-lg-and-up:            '(device-min-width: $screen-lg-min)'
+  device-xs-only:              '(device-min-width: $screen-xs-min) and (device-max-width: $screen-xs-max)'
+  device-sm-only:              '(device-min-width: $screen-sm-min) and (device-max-width: $screen-sm-max)'
+  device-md-only:              '(device-min-width: $screen-md-min) and (device-max-width: $screen-md-max)'
+  device-lg-only:              '(device-min-width: $screen-lg-min)'
+  // This is used for right-affixed elements above lg max width
+  device-lg-max-and-up:        '(device-min-width: $screen-lg-max)',
+}
+
+// Mixin for caching the blocks with the given conditions
+media($condition)
+  helper($condition)
+    unless $media_cache[$condition]
+      $media_cache[$condition] = ()
+    push($media_cache[$condition], block)
+
+  +helper($condition)
+    {selector() + ''}
+      {block}
+
+// Function we would use to call all the cached styles
+apply_media_cache()
+  for $media, $blocks in $media_cache
+    $media = unquote($media_aliases[$media] || $media)
+    $media = '(%s)' % $media unless match('\(', $media)
+    $media = 'screen and %s' % $media
+    @media $media
+      for $block in $blocks
+        {$block}

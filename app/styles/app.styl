@@ -1,0 +1,14 @@
+html, body
+  margin 0
+/* Stylus with global files: variables like color etc. */
+@import 'global/variables'
+
+/* Stylus mixins. */
+@import 'global/mixins'
+
+/* Stylus media query helper mixin */
+@import 'global/media-query-helper'
+
+
+// Here we call all the cached styles using +media mixin
+apply_media_cache()
